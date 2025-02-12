@@ -6,11 +6,11 @@ import GermanFlag from './assets/flags/flag-german.svg';
 import EnglishFlag from './assets/flags/flag-english.svg'; 
 import SpanishFlag from './assets/flags/flag-spanish.svg';
 
-// Función para mezclar el array usando el algoritmo Fisher-Yates
+// Function to shuffle the array using Fisher-Yates algorithm
 function shuffleArray(array) {
   for (let i = array.length - 1; i > 0; i--) {
     const j = Math.floor(Math.random() * (i + 1));
-    [array[i], array[j]] = [array[j], array[i]]; // Intercambiar elementos
+    [array[i], array[j]] = [array[j], array[i]]; // Swap elements
   }
   return array;
 }
@@ -18,83 +18,73 @@ function shuffleArray(array) {
 export default function Home() {
   const [selectedTopic, setSelectedTopic] = useState(null);
   const [selectedFrontLanguage, setSelectedFrontLanguage] = useState(null);
-  const [currentIndex, setCurrentIndex] = useState(0);
+  const [currentDeck, setCurrentDeck] = useState([]); // Array to hold the current deck of cards
   const [isFlipped, setIsFlipped] = useState(false);
-  const [cardStatuses, setCardStatuses] = useState([]);
-  const [pendingIncorrectCards, setPendingIncorrectCards] = useState([]); // Array para tarjetas incorrectas
 
-  // Manejar la selección de un tema y mezclar las tarjetas
+  // Handle topic selection and initialize the deck
   const handleTopicSelect = (topic) => {
-    const shuffledCards = shuffleArray([...topic.cards]); // Mezclar tarjetas
-    setSelectedTopic({ ...topic, cards: shuffledCards }); // Asignar tarjetas mezcladas
-    setCurrentIndex(0);
-    setIsFlipped(false);
+    const shuffledCards = shuffleArray([...topic.cards]); // Shuffle cards
+    setCurrentDeck(shuffledCards); // Initialize the deck with shuffled cards
+    setSelectedTopic(topic);
     setSelectedFrontLanguage(null);
-    setCardStatuses(new Array(shuffledCards.length).fill('pending')); // Resetear estados de tarjetas
-    setPendingIncorrectCards([]); // Limpiar tarjetas incorrectas pendientes
+    setIsFlipped(false);
   };
 
-  // Manejar la selección del idioma frontal
+  // Handle front language selection
   const handleLanguageSelect = (frontLanguage) => {
     setSelectedFrontLanguage(frontLanguage);
   };
 
-  // Mover a la siguiente tarjeta
-  const handleNextCard = () => {
-    setCurrentIndex((prevIndex) => (prevIndex + 1) % selectedTopic.cards.length);
-    setIsFlipped(false);
-  };
-
-  // Voltear la tarjeta
+  // Flip the card
   const handleFlip = () => {
     setIsFlipped(!isFlipped);
   };
 
-  // Marcar tarjeta como correcta
+  // Mark card as correct
   const handleCorrect = () => {
-    const newStatuses = [...cardStatuses];
-    newStatuses[currentIndex] = 'correct';
-    setCardStatuses(newStatuses);
-    setIsFlipped(false); // Reiniciar estado de volteo
+    if (currentDeck.length === 0) return; // No cards left to process
+
+    setIsFlipped(false); // Reset flip state
     setTimeout(() => {
-      handleNextCard();
-    }, 500); // Retardo para la animación
+          // Remove the current card (first element) from the deck
+          const updatedDeck = [...currentDeck];
+          updatedDeck.shift(); // Remove the first card
+          setCurrentDeck(updatedDeck); // Update the deck
+    },500)
   };
 
-  // Marcar tarjeta como incorrecta
+  // Mark card as incorrect
   const handleIncorrect = () => {
-    const newStatuses = [...cardStatuses];
-    newStatuses[currentIndex] = 'incorrect';
-    setCardStatuses(newStatuses);
+    if (currentDeck.length === 0) return; // No cards left to process
 
-    // Agregar la tarjeta incorrecta al array de pendientes
-    const incorrectCard = selectedTopic.cards[currentIndex];
-    setPendingIncorrectCards((prevIncorrectCards) => [...prevIncorrectCards, incorrectCard]);
+    setIsFlipped(false); // Reset flip state
 
-    setIsFlipped(false); // Reiniciar estado de volteo
     setTimeout(() => {
-      handleNextCard();
-    }, 500); // Retardo para la animación
+          // Move the current card (first element) to the end of the deck
+          const updatedDeck = [...currentDeck];
+          const incorrectCard = updatedDeck.shift(); // Remove the first card
+          updatedDeck.push(incorrectCard); // Add it to the end
+          setCurrentDeck(updatedDeck); // Update the deck
+    },500)
+
   };
 
-  // Volver al menú de temas
+  // Go back to topic selection
   const handleBack = () => {
     setSelectedTopic(null);
-    setCurrentIndex(0);
-    setIsFlipped(false);
+    setCurrentDeck([]);
     setSelectedFrontLanguage(null);
-    setCardStatuses([]);
-    setPendingIncorrectCards([]); // Limpiar tarjetas incorrectas pendientes
+    setIsFlipped(false);
   };
 
-  // Renderizar pantalla de selección de tema
+  // Render topic selection screen
   if (!selectedTopic) {
     return (
       <div className="m-4">
         <p className="text-3xl font-bold"><span className="text-sky-500">Z</span>apCards</p>
         <div className="flex flex-col items-center gap-6 mt-6">
           <div className="w-full max-w-sm p-6 rounded-2xl text-center">
-            <p className="font-black text-4xl">Selecciona una opción</p>
+            <p className="font-black text-4xl">Select an option</p>
           </div>
           {topics.map((topic) => (
             <div key={topic.id} className="w-full max-w-sm p-6 border rounded-2xl text-center bg-gray-100 shadow-lg hover:bg-gray-200 transition-all duration-300 cursor-pointer" onClick={() => handleTopicSelect(topic)}>
@@ -107,7 +97,7 @@ export default function Home() {
     );
   }
 
-  // Renderizar pantalla de selección de idioma
+  // Render language selection screen
   if (!selectedFrontLanguage) {
     const availableLanguages = Object.keys(selectedTopic.cards[0]);
     return (
@@ -115,7 +105,7 @@ export default function Home() {
         <p className="text-3xl font-bold"><span className="text-sky-500">Z</span>apCards</p>
         <div className="flex flex-col items-center gap-6 mt-6">
           <div className="w-full max-w-sm p-6 rounded-2xl text-center">
-            <p className="font-black text-4xl">Idioma del frente</p>
+            <p className="font-black text-4xl">Front side language</p>
           </div>
           {availableLanguages.map((lang) => (
             <div key={lang} className="w-full max-w-sm p-6 border rounded-2xl text-center bg-gray-100 shadow-lg hover:bg-gray-200 transition-all duration-300 cursor-pointer" onClick={() => handleLanguageSelect(lang)}>
@@ -132,49 +122,34 @@ export default function Home() {
     );
   }
 
-  // Obtener la tarjeta actual y calcular el progreso
-  const currentCard = selectedTopic.cards[currentIndex];
-  const correctCount = cardStatuses.filter(status => status === 'correct').length;
-  const totalCards = selectedTopic.cards.length;
-
-  // Si hay tarjetas incorrectas pendientes, agregarlas al final del array
-  if (currentIndex >= totalCards && pendingIncorrectCards.length > 0) {
-    setSelectedTopic((prevTopic) => ({
-      ...prevTopic,
-      cards: [...prevTopic.cards, ...pendingIncorrectCards],
-    }));
-    setPendingIncorrectCards([]); // Limpiar tarjetas incorrectas pendientes
-    setCurrentIndex(totalCards); // Continuar desde el final del array original
-  }
-
-  // Renderizar pantalla de finalización
-  if (currentIndex >= totalCards && pendingIncorrectCards.length === 0) {
+  // Completion screen: Show only when all cards are correct
+  if (currentDeck.length === 0) {
     return (
       <div className="m-4">
         <p className="text-3xl font-bold"><span className="text-sky-500">Z</span>apCards</p>
         <div className="flex flex-col items-center gap-6 mt-6">
           <div className="w-full max-w-sm p-6 rounded-2xl text-center">
             <button onClick={handleBack} className="text-xl font-semibold text-blue-600 hover:underline">
-              Volver a Temas
+              Back to Topics
             </button>
           </div>
           <div className="w-full max-w-sm p-6 border rounded-2xl text-center bg-white shadow-lg">
             <h2 className="text-2xl font-bold text-gray-800 mb-2">
-              ¡Felicidades! 🎉
+              Congrats! 🎉
             </h2>
-            <p className="text-gray-600">¡Has dominado este tema!</p>
+            <p className="text-gray-600">You&apos;ve mastered this topic!</p>
             <div className="mt-4 space-y-2">
               <button
                 onClick={() => handleTopicSelect(selectedTopic)}
                 className="w-full px-6 py-2 bg-lime-500 text-white rounded-full hover:bg-lime-600 transition-colors"
               >
-                Practicar de Nuevo
+                Practice Again
               </button>
               <button
                 onClick={handleBack}
                 className="w-full px-6 py-2 bg-sky-400 text-white rounded-full hover:bg-sky-500 transition-colors"
               >
-                Elegir Otro Tema
+                Choose Another Topic
               </button>
             </div>
           </div>
@@ -183,20 +158,23 @@ export default function Home() {
     );
   }
 
-  // Renderizar pantalla de flashcards
+  // Get the current card
+  const currentCard = currentDeck[0]; // Always show the first card in the deck
+
+  // Render flashcard screen
   return (
     <div className="m-4">
       <p className="text-3xl font-bold"><span className="text-sky-500">Z</span>apCards</p>
       <div className="flex flex-col items-center gap-6 mt-6">
         <div className="w-full max-w-sm p-6 rounded-2xl text-center">
           <button onClick={handleBack} className="text-xl font-semibold text-blue-600 hover:underline">
-            Volver a Temas
+            Back to Topics
           </button>
         </div>
         <div className="w-full max-w-sm p-6 border rounded-2xl text-center bg-gray-100 shadow-lg">
           <FlashCard card={currentCard} isFlipped={isFlipped} frontLanguage={selectedFrontLanguage} />
           <button onClick={handleFlip} className="mt-4 px-6 py-2 bg-blue-500 text-white rounded-full hover:bg-blue-600 transition-colors">
-            Voltear Tarjeta
+            Flip Card
           </button>
         </div>
         <div className="flex justify-center gap-4">
@@ -212,7 +190,7 @@ export default function Home() {
           </button>
         </div>
         <div className="mt-4 text-gray-600">
-          Progreso: {correctCount}/{totalCards} tarjetas
+          Progress: {selectedTopic.cards.length - currentDeck.length}/{selectedTopic.cards.length} cards
         </div>
       </div>
     </div>
