@@ -125,7 +125,7 @@ export default function Home() {
             <h2 className="text-2xl font-bold text-gray-800 mb-2">
               Congrats! 🎉
             </h2>
-            <p className="text-gray-600">You've mastered this topic!</p>
+            <p className="text-gray-600">You&apos;ve mastered this topic!</p>
             <div className="mt-4 space-y-2">
               <button
                 onClick={() => handleTopicSelect(selectedTopic)}
