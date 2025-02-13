@@ -1469,4 +1469,42 @@ export const topics: Topic[] = [
                   { english: "trustworthy", german: "vertrauenswürdig", spanish: "confiable" }
             ]
       },
+      {
+            id: "Body",
+            title: "Body",
+            description: "List of common words relative to the, from basic to B2 level.",
+            cards: [
+                  { english: "head", german: "der Kopf", spanish: "la cabeza" },
+                  { english: "hair", german: "das Haar", spanish: "el pelo" },
+                  { english: "face", german: "das Gesicht", spanish: "la cara" },
+                  { english: "forehead", german: "die Stirn", spanish: "la frente" },
+                  { english: "eye", german: "das Auge", spanish: "el ojo" },
+                  { english: "ear", german: "das Ohr", spanish: "la oreja" },
+                  { english: "nose", german: "die Nase", spanish: "la nariz" },
+                  { english: "mouth", german: "der Mund", spanish: "la boca" },
+                  { english: "tooth", german: "der Zahn", spanish: "el diente" },
+                  { english: "tongue", german: "die Zunge", spanish: "la lengua" },
+                  { english: "lip", german: "die Lippe", spanish: "el labio" },
+                  { english: "cheek", german: "die Wange", spanish: "la mejilla" },
+                  { english: "chin", german: "das Kinn", spanish: "la barbilla" },
+                  { english: "neck", german: "der Hals", spanish: "el cuello" },
+                  { english: "shoulder", german: "die Schulter", spanish: "el hombro" },
+                  { english: "arm", german: "der Arm", spanish: "el brazo" },
+                  { english: "elbow", german: "der Ellbogen", spanish: "el codo" },
+                  { english: "hand", german: "die Hand", spanish: "la mano" },
+                  { english: "finger", german: "der Finger", spanish: "el dedo" },
+                  { english: "thumb", german: "der Daumen", spanish: "el pulgar" },
+                  { english: "leg", german: "das Bein", spanish: "la pierna" },
+                  { english: "knee", german: "das Knie", spanish: "la rodilla" },
+                  { english: "foot", german: "der Fuß", spanish: "el pie" },
+                  { english: "toe", german: "die Zehe", spanish: "el dedo del pie" },
+                  { english: "back", german: "der Rücken", spanish: "la espalda" },
+                  { english: "chest", german: "die Brust", spanish: "el pecho" },
+                  { english: "belly", german: "der Bauch", spanish: "el vientre" },
+                  { english: "waist", german: "die Taille", spanish: "la cintura" },
+                  { english: "hip", german: "die Hüfte", spanish: "la cadera" },
+                  { english: "heart", german: "das Herz", spanish: "el corazón" }
+            ]
+
+      }
 ];
