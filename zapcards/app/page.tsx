@@ -168,13 +168,13 @@ export default function Home() {
                                     <div className="mt-4 space-y-2">
                                           <button
                                                 onClick={() => handleTopicSelect(selectedTopic)}
-                                                className="w-full px-6 py-2 bg-lime-500 text-white rounded-full hover:bg-lime-600 transition-colors"
+                                                className="w-full px-6 py-2 bg-moonstone text-white rounded-full hover:bg-lime-600 transition-colors"
                                           >
                                                 Practice Again
                                           </button>
                                           <button
                                                 onClick={handleBack}
-                                                className="w-full px-6 py-2 bg-sky-400 text-white rounded-full hover:bg-sky-500 transition-colors"
+                                                className="w-full px-6 py-2 bg-atomicTangerine text-white rounded-full hover:bg-sky-500 transition-colors"
                                           >
                                                 Choose Another Topic
                                           </button>
