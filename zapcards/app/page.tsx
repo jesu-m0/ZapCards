@@ -106,18 +106,32 @@ export default function Home() {
             const availableLanguages = Object.keys(selectedTopic.cards[0]);
             return (
                   <div className="m-4">
-                        <p className="text-3xl font-bold"><span className="text-sky-500">Z</span>apCards</p>
+                        <div className="bg-babyPowder p-2 pr-4 rounded-xl hover:bg-vanilla font-semibold inline-flex items-start" onClick={handleBack}>
+                              <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" className="mr-2 fill-[#085259]" width="24" height="24">
+                                    <g id="SVGRepo_bgCarrier" strokeWidth="0"></g>
+                                    <g id="SVGRepo_tracerCarrier" strokeLinecap="round" strokeLinejoin="round"></g>
+                                    <g id="SVGRepo_iconCarrier">
+                                          <g data-name="Layer 2">
+                                                <g data-name="arrow-ios-back">
+                                                      <rect width="24" height="24" transform="rotate(90 12 12)" opacity="0"></rect>
+                                                      <path d="M13.83 19a1 1 0 0 1-.78-.37l-4.83-6a1 1 0 0 1 0-1.27l5-6a1 1 0 0 1 1.54 1.28L10.29 12l4.32 5.36a1 1 0 0 1-.78 1.64z"></path>
+                                                </g>
+                                          </g>
+                                    </g>
+                              </svg>
+                              Back to topics
+                        </div>
                         <div className="flex flex-col items-center gap-6 mt-6">
                               <div className="w-full max-w-sm p-6 rounded-2xl text-center">
-                                    <p className="font-black text-4xl">Front side language</p>
+                                    <p className="font-black text-3xl">Front side language</p>
                               </div>
                               {availableLanguages.map((lang) => (
-                                    <div key={lang} className="w-full max-w-sm p-6 border rounded-2xl text-center bg-gray-100 shadow-lg hover:bg-gray-200 transition-all duration-300 cursor-pointer" onClick={() => handleLanguageSelect(lang)}>
+                                    <div key={lang} className="w-full max-w-sm p-6 border-2 border-vanilla hover:border-atomicTangerine rounded-2xl text-center bg-babyPowder shadow transition-all duration-300 cursor-pointer" onClick={() => handleLanguageSelect(lang)}>
                                           <div className="flex items-center justify-center">
-                                                {lang === 'english' && <EnglishFlag className="inline-block w-6 h-6 mr-2" />}
-                                                {lang === 'german' && <GermanFlag className="inline-block w-6 h-6 mr-2" />}
-                                                {lang === 'spanish' && <SpanishFlag className="inline-block w-6 h-6 mr-2" />}
-                                                <a className="text-xl font-semibold text-blue-600">{lang.charAt(0).toUpperCase() + lang.slice(1)}</a>
+                                                {lang === 'english' && <EnglishFlag className="inline-block w-8 h-8 mr-2" />}
+                                                {lang === 'german' && <GermanFlag className="inline-block w-8 h-8 mr-2" />}
+                                                {lang === 'spanish' && <SpanishFlag className="inline-block w-8 h-8 mr-2" />}
+                                                <a className="text-xl font-bold">{lang.charAt(0).toUpperCase() + lang.slice(1)}</a>
                                           </div>
                                     </div>
                               ))}
@@ -130,13 +144,22 @@ export default function Home() {
       if (currentDeck.length === 0) {
             return (
                   <div className="m-4">
-                        <p className="text-3xl font-bold"><span className="text-sky-500">Z</span>apCards</p>
+                        <div className="bg-babyPowder p-2 pr-4 rounded-xl hover:bg-vanilla font-semibold inline-flex items-start" onClick={handleBack}>
+                              <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" className="mr-2 fill-[#085259]" width="24" height="24">
+                                    <g id="SVGRepo_bgCarrier" strokeWidth="0"></g>
+                                    <g id="SVGRepo_tracerCarrier" strokeLinecap="round" strokeLinejoin="round"></g>
+                                    <g id="SVGRepo_iconCarrier">
+                                          <g data-name="Layer 2">
+                                                <g data-name="arrow-ios-back">
+                                                      <rect width="24" height="24" transform="rotate(90 12 12)" opacity="0"></rect>
+                                                      <path d="M13.83 19a1 1 0 0 1-.78-.37l-4.83-6a1 1 0 0 1 0-1.27l5-6a1 1 0 0 1 1.54 1.28L10.29 12l4.32 5.36a1 1 0 0 1-.78 1.64z"></path>
+                                                </g>
+                                          </g>
+                                    </g>
+                              </svg>
+                              Back to topics
+                        </div>
                         <div className="flex flex-col items-center gap-6 mt-6">
-                              <div className="w-full max-w-sm p-6 rounded-2xl text-center">
-                                    <button onClick={handleBack} className="text-xl font-semibold text-blue-600 hover:underline">
-                                          Back to Topics
-                                    </button>
-                              </div>
                               <div className="w-full max-w-sm p-6 border rounded-2xl text-center bg-white shadow-lg">
                                     <h2 className="text-2xl font-bold text-gray-800 mb-2">
                                           Congrats! 🎉
@@ -168,33 +191,48 @@ export default function Home() {
       // Render flashcard screen
       return (
             <div className="m-4">
-                  <p className="text-3xl font-bold"><span className="text-sky-500">Z</span>apCards</p>
+                  <div className="bg-babyPowder p-2 pr-4 rounded-xl hover:bg-vanilla font-semibold inline-flex items-start" onClick={handleBack}>
+                        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" className="mr-2 fill-[#085259]" width="24" height="24">
+                              <g id="SVGRepo_bgCarrier" strokeWidth="0"></g>
+                              <g id="SVGRepo_tracerCarrier" strokeLinecap="round" strokeLinejoin="round"></g>
+                              <g id="SVGRepo_iconCarrier">
+                                    <g data-name="Layer 2">
+                                          <g data-name="arrow-ios-back">
+                                                <rect width="24" height="24" transform="rotate(90 12 12)" opacity="0"></rect>
+                                                <path d="M13.83 19a1 1 0 0 1-.78-.37l-4.83-6a1 1 0 0 1 0-1.27l5-6a1 1 0 0 1 1.54 1.28L10.29 12l4.32 5.36a1 1 0 0 1-.78 1.64z"></path>
+                                          </g>
+                                    </g>
+                              </g>
+                        </svg>
+                        Back to topics
+                  </div>
                   <div className="flex flex-col items-center gap-6 mt-6">
-                        <div className="w-full max-w-sm p-6 rounded-2xl text-center">
-                              <button onClick={handleBack} className="text-xl font-semibold text-blue-600 hover:underline">
-                                    Back to Topics
-                              </button>
-                        </div>
-                        <div className="w-full max-w-sm p-6 border rounded-2xl text-center bg-gray-100 shadow-lg">
+                        <div className="w-full max-w-sm p-6 border rounded-2xl text-center bg-babyPowder shadow-sm">
+                              <p className="mb-4">{selectedTopic.cards.length - currentDeck.length}/{selectedTopic.cards.length}</p>
                               <FlashCard card={currentCard} isFlipped={isFlipped} frontLanguage={selectedFrontLanguage} />
-                              <button onClick={handleFlip} className="mt-4 px-6 py-2 bg-blue-500 text-white rounded-full hover:bg-blue-600 transition-colors">
-                                    Flip Card
-                              </button>
-                        </div>
-                        <div className="flex justify-center gap-4">
-                              <button onClick={handleCorrect} className="p-3 rounded-full bg-lime-500 text-white hover:bg-lime-600 transition-colors">
-                                    <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7"></path>
-                                    </svg>
-                              </button>
-                              <button onClick={handleIncorrect} className="p-3 rounded-full bg-red-400 text-white hover:bg-red-500 transition-colors">
-                                    <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12"></path>
-                                    </svg>
-                              </button>
-                        </div>
-                        <div className="mt-4 text-gray-600">
-                              Progress: {selectedTopic.cards.length - currentDeck.length}/{selectedTopic.cards.length} cards
+                              <div className="flex justify-center items-center mt-4 gap-4">
+
+                                    <button onClick={handleCorrect} className="p-3 rounded-full bg-lime-500 text-white hover:bg-lime-600 transition-colors">
+                                          <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7"></path>
+                                          </svg>
+                                    </button>
+
+                                    <button onClick={handleFlip} className="p-4 bg-moonstone text-white rounded-full hover:bg-blue-600 transition-colors flex items-center">
+                                          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-rotate3d w-8 h-8">
+                                                <path d="M16.466 7.5C15.643 4.237 13.952 2 12 2 9.239 2 7 6.477 7 12s2.239 10 5 10c.342 0 .677-.069 1-.2"></path>
+                                                <path d="m15.194 13.707 3.814 1.86-1.86 3.814"></path>
+                                                <path d="M19 15.57c-1.804.885-4.274 1.43-7 1.43-5.523 0-10-2.239-10-5s4.477-5 10-5c4.838 0 8.873 1.718 9.8 4"></path>
+                                          </svg>
+                                    </button>
+
+                                    <button onClick={handleIncorrect} className="p-3 rounded-full bg-red-400 text-white hover:bg-red-500 transition-colors">
+                                          <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12"></path>
+                                          </svg>
+                                    </button>
+
+                              </div>
                         </div>
                   </div>
             </div>

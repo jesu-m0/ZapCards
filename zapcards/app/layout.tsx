@@ -39,7 +39,7 @@ export default function RootLayout({
       <body className={`${geistSans.variable} ${geistMono.variable} antialiased bg-[linear-gradient(135deg,#B5E2FA_0%,#F9F7F3_40%,#EDDEA4_80%,#F7A072_100%)]`}>
         <Header />
         <hr></hr>
-        <main>{children}</main>
+        <main className="min-h-screen w-full">{children}</main>
       </body>
     </html>
   );
