@@ -11,6 +11,11 @@ export default {
       colors: {
         background: "var(--background)",
         foreground: "var(--foreground)",
+        moonstone: "#0FA3B1",
+        uranianBlue: "#B5E2FA",
+        babyPowder: "#F9F7F3",
+        vanilla: "#EDDEA4",
+        atomicTangerine: "#F7A072",
       },
     },
   },
