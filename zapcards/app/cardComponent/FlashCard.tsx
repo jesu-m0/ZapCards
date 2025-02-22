@@ -25,7 +25,6 @@ const languageFlags = {
 };
 
 export function FlashCard({ card, isFlipped, frontLanguage, backLanguages }: FlashCardProps) {
-      const availableLanguages = Object.keys(card);
       const frontText = (
             <span>
                   {languageFlags[frontLanguage]}
