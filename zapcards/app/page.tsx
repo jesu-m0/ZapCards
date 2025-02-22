@@ -5,6 +5,9 @@ import { FlashCard } from "./cardComponent/FlashCard";
 import GermanFlag from './assets/flags/flag-german.svg';
 import EnglishFlag from './assets/flags/flag-english.svg';
 import SpanishFlag from './assets/flags/flag-spanish.svg';
+import PTFlag from './assets/flags/flag-pt.svg';
+import FRFlag from './assets/flags/flag-fr.svg';
+import ITFlag from './assets/flags/flag-italian.svg';
 
 // Function to shuffle the array using Fisher-Yates algorithm
 function shuffleArray(array) {
@@ -18,6 +21,8 @@ function shuffleArray(array) {
 export default function Home() {
       const [selectedTopic, setSelectedTopic] = useState(null);
       const [selectedFrontLanguage, setSelectedFrontLanguage] = useState(null);
+      const [selectedBackLanguages, setSelectedBackLanguages] = useState([]);
+      const [backLanguagesConfirmed, setBackLanguagesConfirmed] = useState(false);
       const [currentDeck, setCurrentDeck] = useState([]); // Array to hold the current deck of cards
       const [isFlipped, setIsFlipped] = useState(false);
 
@@ -27,12 +32,30 @@ export default function Home() {
             setCurrentDeck(shuffledCards); // Initialize the deck with shuffled cards
             setSelectedTopic(topic);
             setSelectedFrontLanguage(null);
+            setSelectedBackLanguages([]);
+            setBackLanguagesConfirmed(false);
             setIsFlipped(false);
       };
 
       // Handle front language selection
-      const handleLanguageSelect = (frontLanguage) => {
+      const handleFrontLanguageSelect = (frontLanguage) => {
             setSelectedFrontLanguage(frontLanguage);
+      };
+
+      // Toggle back language selection (allows one or two selections)
+      const toggleBackLanguage = (lang) => {
+            if (selectedBackLanguages.includes(lang)) {
+                  setSelectedBackLanguages(selectedBackLanguages.filter(l => l !== lang));
+            } else if (selectedBackLanguages.length < 2) {
+                  setSelectedBackLanguages([...selectedBackLanguages, lang]);
+            }
+      };
+
+      // Confirm back side language selection
+      const handleBackLanguageConfirm = () => {
+            if (selectedBackLanguages.length > 0) {
+                  setBackLanguagesConfirmed(true);
+            }
       };
 
       // Flip the card
@@ -50,7 +73,7 @@ export default function Home() {
                   const updatedDeck = [...currentDeck];
                   updatedDeck.shift(); // Remove the first card
                   setCurrentDeck(updatedDeck); // Update the deck
-            }, 500)
+            }, 500);
       };
 
       // Mark card as incorrect
@@ -58,15 +81,13 @@ export default function Home() {
             if (currentDeck.length === 0) return; // No cards left to process
 
             setIsFlipped(false); // Reset flip state
-
             setTimeout(() => {
                   // Move the current card (first element) to the end of the deck
                   const updatedDeck = [...currentDeck];
                   const incorrectCard = updatedDeck.shift(); // Remove the first card
                   updatedDeck.push(incorrectCard); // Add it to the end
                   setCurrentDeck(updatedDeck); // Update the deck
-            }, 500)
-
+            }, 500);
       };
 
       // Go back to topic selection
@@ -74,39 +95,40 @@ export default function Home() {
             setSelectedTopic(null);
             setCurrentDeck([]);
             setSelectedFrontLanguage(null);
+            setSelectedBackLanguages([]);
+            setBackLanguagesConfirmed(false);
             setIsFlipped(false);
       };
 
       // Render topic selection screen
       if (!selectedTopic) {
             return (
-                  <>
-                        <div className="m-4">
-                              <div className="flex flex-col items-center gap-6 mt-6">
-                                    <div className="w-full max-w-sm p-6 rounded-2xl text-center">
-                                          <p className="font-extrabold text-4xl">Select a topic</p>
-                                    </div>
-                                    {topics.map((topic) => (
-                                          <div key={topic.id} className="w-full max-w-sm p-6 border-2 border-vanilla hover:border-atomicTangerine rounded-2xl text-center bg-babyPowder shadow transition-all duration-300 cursor-pointer" onClick={() => handleTopicSelect(topic)}>
-                                                <div className="flex justify-between">
-                                                      <a className="text-2xl font-bold ">{topic.title}</a>
-                                                      <p className="text-lg font-medium text-atomicTangerine">{topic.cards.length}</p>
-                                                </div>
-                                                <p className="mt-2 text-sm text-moonstone text-left">{topic.description}</p>
-                                          </div>
-                                    ))}
+                  <div className="m-4">
+                        <div className="flex flex-col items-center gap-6 mt-6">
+                              <div className="w-full max-w-sm p-6 rounded-2xl text-center">
+                                    <p className="font-extrabold text-4xl">Select a topic</p>
                               </div>
+                              {topics.map((topic) => (
+                                    <div key={topic.id} className="w-full max-w-sm p-6 border-2 border-vanilla hover:border-atomicTangerine rounded-2xl text-center bg-babyPowder shadow transition-all duration-300 cursor-pointer" onClick={() => handleTopicSelect(topic)}>
+                                          <div className="flex justify-between">
+                                                <a className="text-2xl font-bold ">{topic.title}</a>
+                                                <p className="text-lg font-medium text-atomicTangerine">{topic.cards.length}</p>
+                                          </div>
+                                          <p className="mt-2 text-sm text-moonstone text-left">{topic.description}</p>
+                                    </div>
+                              ))}
                         </div>
-                  </>
+                  </div>
             );
       }
 
-      // Render language selection screen
+      // Render front language selection screen
       if (!selectedFrontLanguage) {
             const availableLanguages = Object.keys(selectedTopic.cards[0]);
             return (
                   <div className="m-4">
                         <div className="bg-babyPowder p-2 pr-4 rounded-xl hover:bg-vanilla font-semibold inline-flex items-start" onClick={handleBack}>
+                              {/* Back arrow SVG */}
                               <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" className="mr-2 fill-[#085259]" width="24" height="24">
                                     <g id="SVGRepo_bgCarrier" strokeWidth="0"></g>
                                     <g id="SVGRepo_tracerCarrier" strokeLinecap="round" strokeLinejoin="round"></g>
@@ -126,15 +148,80 @@ export default function Home() {
                                     <p className="font-black text-3xl">Front side language</p>
                               </div>
                               {availableLanguages.map((lang) => (
-                                    <div key={lang} className="w-full max-w-sm p-6 border-2 border-vanilla hover:border-atomicTangerine rounded-2xl text-center bg-babyPowder shadow transition-all duration-300 cursor-pointer" onClick={() => handleLanguageSelect(lang)}>
+                                    <div key={lang} className="w-full max-w-sm p-6 border-2 border-vanilla hover:border-atomicTangerine rounded-2xl text-center bg-babyPowder shadow transition-all duration-300 cursor-pointer" onClick={() => handleFrontLanguageSelect(lang)}>
                                           <div className="flex items-center justify-center">
                                                 {lang === 'english' && <EnglishFlag className="inline-block w-8 h-8 mr-2" />}
                                                 {lang === 'german' && <GermanFlag className="inline-block w-8 h-8 mr-2" />}
                                                 {lang === 'spanish' && <SpanishFlag className="inline-block w-8 h-8 mr-2" />}
+                                                {lang === 'italian' && <ITFlag className="inline-block w-8 h-8 mr-2" />}
+                                                {lang === 'french' && <FRFlag className="inline-block w-8 h-8 mr-2" />}
+                                                {lang === 'portuguese' && <PTFlag className="inline-block w-8 h-8 mr-2" />}
                                                 <a className="text-xl font-bold">{lang.charAt(0).toUpperCase() + lang.slice(1)}</a>
                                           </div>
                                     </div>
                               ))}
+                        </div>
+                  </div>
+            );
+      }
+
+      // Render back side language selection screen until user confirms selection
+      if (selectedFrontLanguage && !backLanguagesConfirmed) {
+            const availableBackLanguages = Object.keys(selectedTopic.cards[0]).filter(lang => lang !== selectedFrontLanguage);
+            return (
+                  <div className="m-4">
+                        <div className="bg-babyPowder p-2 pr-4 rounded-xl hover:bg-vanilla font-semibold inline-flex items-start" onClick={handleBack}>
+                              {/* Back arrow SVG */}
+                              <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" className="mr-2 fill-[#085259]" width="24" height="24">
+                                    <g id="SVGRepo_bgCarrier" strokeWidth="0"></g>
+                                    <g id="SVGRepo_tracerCarrier" strokeLinecap="round" strokeLinejoin="round"></g>
+                                    <g id="SVGRepo_iconCarrier">
+                                          <g data-name="Layer 2">
+                                                <g data-name="arrow-ios-back">
+                                                      <rect width="24" height="24" transform="rotate(90 12 12)" opacity="0"></rect>
+                                                      <path d="M13.83 19a1 1 0 0 1-.78-.37l-4.83-6a1 1 0 0 1 0-1.27l5-6a1 1 0 0 1 1.54 1.28L10.29 12l4.32 5.36a1 1 0 0 1-.78 1.64z"></path>
+                                                </g>
+                                          </g>
+                                    </g>
+                              </svg>
+                              Back to topics
+                        </div>
+                        <div className="flex flex-col items-center gap-6 mt-6">
+                              <div className="w-full max-w-sm p-6 rounded-2xl text-center">
+                                    <p className="font-black text-3xl">Select Back Side Language(s)</p>
+                              </div>
+                              {availableBackLanguages.map((lang) => (
+                                    <div 
+                                          key={lang} 
+                                          onClick={() => toggleBackLanguage(lang)}
+                                          className={`w-full max-w-sm p-6 border-2 rounded-2xl text-center bg-babyPowder shadow transition-all duration-300 cursor-pointer ${
+                                                selectedBackLanguages.includes(lang)
+                                                      ? "border-moonstone"
+                                                      : "border-vanilla hover:border-atomicTangerine"
+                                          }`}
+                                    >
+                                          <div className="flex items-center justify-center">
+                                                {lang === 'english' && <EnglishFlag className="inline-block w-8 h-8 mr-2" />}
+                                                {lang === 'german' && <GermanFlag className="inline-block w-8 h-8 mr-2" />}
+                                                {lang === 'spanish' && <SpanishFlag className="inline-block w-8 h-8 mr-2" />}
+                                                {lang === 'italian' && <ITFlag className="inline-block w-8 h-8 mr-2" />}
+                                                {lang === 'french' && <FRFlag className="inline-block w-8 h-8 mr-2" />}
+                                                {lang === 'portuguese' && <PTFlag className="inline-block w-8 h-8 mr-2" />}
+                                                <a className="text-xl font-bold">{lang.charAt(0).toUpperCase() + lang.slice(1)}</a>
+                                          </div>
+                                    </div>
+                              ))}
+                              <button 
+                                    onClick={handleBackLanguageConfirm} 
+                                    disabled={selectedBackLanguages.length === 0}
+                                    className={`mt-4 px-6 py-2 rounded-full transition-colors ${
+                                          selectedBackLanguages.length === 0 
+                                                ? "bg-gray-400 cursor-not-allowed" 
+                                                : "bg-moonstone text-white hover:bg-blue-600"
+                                    }`}
+                              >
+                                    Continue
+                              </button>
                         </div>
                   </div>
             );
@@ -145,6 +232,7 @@ export default function Home() {
             return (
                   <div className="m-4">
                         <div className="bg-babyPowder p-2 pr-4 rounded-xl hover:bg-vanilla font-semibold inline-flex items-start" onClick={handleBack}>
+                              {/* Back arrow SVG */}
                               <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" className="mr-2 fill-[#085259]" width="24" height="24">
                                     <g id="SVGRepo_bgCarrier" strokeWidth="0"></g>
                                     <g id="SVGRepo_tracerCarrier" strokeLinecap="round" strokeLinejoin="round"></g>
@@ -192,6 +280,7 @@ export default function Home() {
       return (
             <div className="m-4">
                   <div className="bg-babyPowder p-2 pr-4 rounded-xl hover:bg-vanilla font-semibold inline-flex items-start" onClick={handleBack}>
+                        {/* Back arrow SVG */}
                         <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" className="mr-2 fill-[#085259]" width="24" height="24">
                               <g id="SVGRepo_bgCarrier" strokeWidth="0"></g>
                               <g id="SVGRepo_tracerCarrier" strokeLinecap="round" strokeLinejoin="round"></g>
@@ -209,15 +298,18 @@ export default function Home() {
                   <div className="flex flex-col items-center gap-6 mt-6">
                         <div className="w-full max-w-sm p-6 border rounded-2xl text-center bg-babyPowder shadow-sm">
                               <p className="mb-4">{selectedTopic.cards.length - currentDeck.length}/{selectedTopic.cards.length}</p>
-                              <FlashCard card={currentCard} isFlipped={isFlipped} frontLanguage={selectedFrontLanguage} />
+                              <FlashCard 
+                                    card={currentCard} 
+                                    isFlipped={isFlipped} 
+                                    frontLanguage={selectedFrontLanguage} 
+                                    backLanguages={selectedBackLanguages} // Pass the back languages here
+                              />
                               <div className="flex justify-center items-center mt-4 gap-4">
-
                                     <button onClick={handleCorrect} className="p-3 rounded-full bg-lime-500 text-white hover:bg-lime-600 transition-colors">
                                           <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                                                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7"></path>
                                           </svg>
                                     </button>
-
                                     <button onClick={handleFlip} className="p-4 bg-moonstone text-white rounded-full hover:bg-blue-600 transition-colors flex items-center">
                                           <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-rotate3d w-8 h-8">
                                                 <path d="M16.466 7.5C15.643 4.237 13.952 2 12 2 9.239 2 7 6.477 7 12s2.239 10 5 10c.342 0 .677-.069 1-.2"></path>
@@ -225,13 +317,11 @@ export default function Home() {
                                                 <path d="M19 15.57c-1.804.885-4.274 1.43-7 1.43-5.523 0-10-2.239-10-5s4.477-5 10-5c4.838 0 8.873 1.718 9.8 4"></path>
                                           </svg>
                                     </button>
-
                                     <button onClick={handleIncorrect} className="p-3 rounded-full bg-red-400 text-white hover:bg-red-500 transition-colors">
                                           <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                                                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12"></path>
                                           </svg>
                                     </button>
-
                               </div>
                         </div>
                   </div>
