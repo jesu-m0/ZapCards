@@ -2032,6 +2032,15 @@ export const topics: Topic[] = [
                   { german: "unabhängige", english: "independent", spanish: "independiente", italian: "indipendente", french: "indépendant", portuguese: "independente" },
                   { german: "die Justiz", english: "the judiciary", spanish: "la justicia", italian: "la giustizia", french: "la justice", portuguese: "a justiça" },
                   { german: "abdrehen", english: "to turn off", spanish: "apagar", italian: "spegnere", french: "éteindre", portuguese: "desligar" },
+                  { german: "besuchen", english: "to visit", spanish: "visitar", italian: "visitare", french: "visiter", portuguese: "visitar" },
+                  { german: "gefallen", english: "to please", spanish: "agradar", italian: "piacere", french: "plaire", portuguese: "agradar" },
+                  { german: "toll", english: "great", spanish: "genial", italian: "fantastico", french: "super", portuguese: "ótimo" },
+                  { german: "die Lebensweise", english: "the lifestyle", spanish: "el estilo de vida", italian: "lo stile di vita", french: "le mode de vie", portuguese: "o estilo de vida" },
+
+
+                  /**
+                  { german: "", english: "", spanish: "", italian: "", french: "", portuguese: "" },
+                   */
             ]
       }
 
